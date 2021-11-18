@@ -29,8 +29,9 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val attractionsArrayList = (attractionsList as? ArrayList<Attraction>) ?: ArrayList()
-        val homeAdapter = HomeFragmentAdapter(attractionsArrayList) {
-
+        val homeAdapter = HomeFragmentAdapter(attractionsArrayList) { attractionId ->
+            val navDirections = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
+            navController.navigate(navDirections)
         }
         //homeAdapter.setData(attractionsArrayList)
         binding.recyclerView.adapter = homeAdapter

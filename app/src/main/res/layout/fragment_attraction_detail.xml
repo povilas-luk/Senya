@@ -6,14 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.AttractionDetailFragment">
 
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/detailHeaderImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/detailTitleTextVIew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_details_title"
+        android:backgroundTint="@color/black"
+        android:padding="8dp"
+        android:textColor="?attr/colorSurface"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/detailHeaderImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/detailTimeToVisitTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawablePadding="8dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:drawableStartCompat="@drawable/ic_flight_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/detailFactsTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="All year" />
+
+    <TextView
+        android:id="@+id/detailDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:lineSpacingExtra="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/detailTimeToVisitTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailHeaderImageView"
+        app:layout_constraintVertical_bias="0.47"
+        tools:text="@tools:sample/lorem/random" />
+
+    <TextView
+        android:id="@+id/detailFactsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:textColor="?attr/colorPrimaryVariant"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="3 facts" />
 </androidx.constraintlayout.widget.ConstraintLayout>

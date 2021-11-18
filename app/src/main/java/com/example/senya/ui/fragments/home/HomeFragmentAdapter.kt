@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 
 class HomeFragmentAdapter(
     private var attractionsArrayList: ArrayList<Attraction>,
-    private val onClickedCallBack: () -> Unit
+    private val onClickedCallBack: (String) -> Unit
     ): RecyclerView.Adapter<HomeFragmentAdapter.AttractionViewHolder>() {
 
     inner class AttractionViewHolder(view: ViewGroup) : RecyclerView.ViewHolder(
@@ -19,14 +19,14 @@ class HomeFragmentAdapter(
     ) {
         private val binding = ViewHolderAttractionBinding.bind(itemView)
 
-        fun bind(attraction: Attraction, onClicked: () -> Unit) {
+        fun bind(attraction: Attraction, onClicked: (String) -> Unit) {
             binding.titleTextView.text = attraction.title
             binding.timeToVisitTextView.text = attraction.months_to_visit
             Picasso.get()
                 .load(attraction.image_url)
                 .into(binding.headerImageView)
             binding.root.setOnClickListener {
-                onClicked()
+                onClicked(attraction.id)
             }
         }
     }
