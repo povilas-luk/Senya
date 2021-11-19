@@ -72,15 +72,20 @@ class AttractionDetailFragment : BaseFragment() {
     }
 
     private fun factsDialog() {
-        val builder: AlertDialog.Builder? = activity?.let {
+        val facts: String = attraction.facts.joinToString (prefix = "\u2022 ", separator = "\n\n\u2022 ")
+
+        AlertDialog.Builder(requireContext(), R.style.dialog)
+            .setTitle("Facts")
+            .setMessage(facts)
+            .setPositiveButton("Close") {dialog, _ -> dialog.dismiss()}
+            .show()
+
+        /*val builder: AlertDialog.Builder? = activity?.let {
             AlertDialog.Builder(it)
         }
-        var facts: String = attraction.facts.joinToString (prefix = "  ", separator = "\n\n  ")
-
-        builder?.setMessage(facts)?.setTitle("Facts")
-
+        builder?.setMessage(facts)?.setTitle("Facts")?.setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
         val dialog: AlertDialog? = builder?.create()
-        dialog?.show()
+        dialog?.show()*/
     }
 
     override fun onDestroyView() {
