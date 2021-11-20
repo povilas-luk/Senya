@@ -1,5 +1,6 @@
 package com.example.senya.ui.fragments.home
 
+import android.net.Uri
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.kotlinsample.helpers.ViewBindingKotlinModel
 import com.example.senya.R
@@ -69,9 +70,11 @@ class HomeFragmentController(
         override fun ViewHolderAttractionBinding.bind() {
             titleTextView.text = attraction.title
             timeToVisitTextView.text = attraction.months_to_visit
-            Picasso.get()
-                .load(attraction.image_url)
-                .into(headerImageView)
+            if (attraction.image_urls.isNotEmpty()) {
+                Picasso.get()
+                    .load(Uri.parse(attraction.image_urls[0]))
+                    .into(headerImageView)
+            }
             root.setOnClickListener {
                 onClicked(attraction.id)
             }

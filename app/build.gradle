@@ -65,4 +65,8 @@ dependencies {
     implementation "com.airbnb.android:epoxy:$epoxyVersion"
     kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
 
+    def scroll_indicator_version = "1.2.1"
+    implementation "ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:$scroll_indicator_version"
+    implementation "com.android.support:recyclerview-v7:$scroll_indicator_version"
+
 }

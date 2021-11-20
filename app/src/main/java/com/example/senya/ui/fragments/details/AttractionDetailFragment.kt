@@ -1,13 +1,13 @@
-package com.example.senya.ui.fragments
+package com.example.senya.ui.fragments.details
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.senya.R
 import com.example.senya.databinding.FragmentAttractionDetailBinding
-import com.squareup.picasso.Picasso
+import com.example.senya.ui.fragments.BaseFragment
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 
 class AttractionDetailFragment : BaseFragment() {
 
@@ -40,9 +40,12 @@ class AttractionDetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activityViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner) {attraction ->
-            Picasso.get()
-                .load(Uri.parse(attraction.image_url))
-                .into(binding.detailHeaderImageView)
+            /*Picasso.get()
+                .load(Uri.parse(attraction.image_urls[0]))
+                .into(binding.detailHeaderImageView)*/
+            binding.headerEpoxyRecyclerView.setControllerAndBuildModels(HeaderEpoxyController(attraction.image_urls))
+            LinearSnapHelper().attachToRecyclerView(binding.headerEpoxyRecyclerView)
+            binding.indicator.attachToRecyclerView(binding.headerEpoxyRecyclerView)
             binding.detailTitleTextVIew.text = attraction.title
             binding.detailDescriptionTextView.text = attraction.description
             binding.detailTimeToVisitTextView.text = attraction.months_to_visit

@@ -4,18 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.AttractionDetailFragment">
+    tools:context=".ui.fragments.details.AttractionDetailFragment">
 
-    <ImageView
-        android:id="@+id/detailHeaderImageView"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/header_epoxy_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/backgrounds/scenic[7]" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:spi_orientation="vertical"
+        app:spi_dotColor="?attr/colorSecondaryVariant"
+        app:spi_dotSelectedColor="?attr/colorSecondary"
+        app:layout_constraintBottom_toBottomOf="@+id/header_epoxy_recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/header_epoxy_recycler_view"
+        app:layout_constraintTop_toTopOf="@+id/header_epoxy_recycler_view" />
 
     <TextView
         android:id="@+id/detailTitleTextVIew"
@@ -27,7 +39,7 @@
         android:textColor="?attr/colorSurface"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/detailHeaderImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/header_epoxy_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Title" />
@@ -59,7 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/detailTimeToVisitTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailHeaderImageView"
+        app:layout_constraintTop_toBottomOf="@+id/header_epoxy_recycler_view"
         tools:text="@tools:sample/lorem/random" />
 
     <TextView
