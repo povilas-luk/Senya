@@ -3,11 +3,13 @@ package com.example.senya.ui.fragments.details
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.dmp.senya.ui.fragment.details.ContentEpoxyController
 import com.example.senya.R
 import com.example.senya.databinding.FragmentAttractionDetailBinding
 import com.example.senya.ui.fragments.BaseFragment
-import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 
 class AttractionDetailFragment : BaseFragment() {
 
@@ -47,13 +49,23 @@ class AttractionDetailFragment : BaseFragment() {
             LinearSnapHelper().attachToRecyclerView(binding.headerEpoxyRecyclerView)
             binding.indicator.attachToRecyclerView(binding.headerEpoxyRecyclerView)
             binding.detailTitleTextVIew.text = attraction.title
-            binding.detailDescriptionTextView.text = attraction.description
-            binding.detailTimeToVisitTextView.text = attraction.months_to_visit
-            val factNumberText = "${attraction.facts.size} facts"
-            binding.detailFactsTextView.text = factNumberText
-            binding.detailFactsTextView.setOnClickListener {
-                factsDialog(attraction.facts)
+
+            var isGridMode: Boolean = binding.contentEpoxyRecyclerView.layoutManager is GridLayoutManager
+            val contentEpoxyController = ContentEpoxyController(attraction)
+            contentEpoxyController.isGridMode = isGridMode
+            contentEpoxyController.onChangeLayoutCallback = {
+                if (isGridMode) {
+                    binding.contentEpoxyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                } else {
+                    binding.contentEpoxyRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+                }
+
+                isGridMode = !isGridMode
+                contentEpoxyController.isGridMode = isGridMode
+                contentEpoxyController.requestModelBuild()
+
             }
+            binding.contentEpoxyRecyclerView.setControllerAndBuildModels(contentEpoxyController)
         }
 
     }

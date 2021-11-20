@@ -44,45 +44,17 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Title" />
 
-    <TextView
-        android:id="@+id/detailTimeToVisitTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="italic"
-        app:drawableStartCompat="@drawable/ic_flight_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/detailFactsTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="All year" />
-
-    <TextView
-        android:id="@+id/detailDescriptionTextView"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/contentEpoxyRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:lineSpacingExtra="3dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/detailTimeToVisitTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_epoxy_recycler_view"
-        tools:text="@tools:sample/lorem/random" />
-
-    <TextView
-        android:id="@+id/detailFactsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackgroundBorderless"
-        android:padding="10dp"
-        android:textColor="?attr/colorPrimaryVariant"
-        android:textSize="16sp"
+        android:orientation="vertical"
+        android:paddingBottom="24dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="3 facts" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailTitleTextVIew"
+        app:spanCount="2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
