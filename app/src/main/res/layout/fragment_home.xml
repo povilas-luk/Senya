@@ -7,8 +7,8 @@
     android:orientation="vertical"
     tools:context=".ui.fragments.home.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/epoxyRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="26dp"

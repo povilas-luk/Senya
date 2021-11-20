@@ -28,18 +28,19 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //val attractionsArrayList = (attractionsList as? ArrayList<Attraction>) ?: ArrayList()
-        val homeAdapter = HomeFragmentAdapter(/*attractionsArrayList*/) { attractionId ->
+        val homeEpoxyController = HomeFragmentController(/*attractionsArrayList*/) { attractionId ->
             activityViewModel.onAttractionSelected(attractionId)
             //val navDirections = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
             //navController.navigate(navDirections)
             navController.navigate(R.id.action_homeFragment_to_attractionDetailFragment)
         }
         //homeAdapter.setData(attractionsArrayList)
-        binding.recyclerView.adapter = homeAdapter
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), RecyclerView.VERTICAL))
+        //binding.recyclerView.adapter = homeEpoxyController.adapter
+        binding.epoxyRecyclerView.setController(homeEpoxyController)
+        binding.epoxyRecyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), RecyclerView.VERTICAL))
 
         activityViewModel.attractionListLiveData.observe(viewLifecycleOwner) { attractions ->
-            homeAdapter.setData(attractions)
+            homeEpoxyController.attractions = attractions
         }
     }
 
