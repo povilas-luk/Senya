@@ -1,31 +1,30 @@
 package com.example.senya.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.senya.R
-import com.example.senya.data.Attraction
-import com.example.senya.data.AttractionsResponse
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.example.senya.arch.AttractionsViewModel
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    val attractionsList: List<Attraction> by lazy {
-        parseAttractions()
-    }
+    val viewModel: AttractionsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel.init(this)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -33,6 +32,15 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        viewModel.locationSelectedLiveData.observe(this) { attraction ->
+            val uri = "geo:${attraction.location.latitude},${attraction.location.longitude}?z=9&q=${attraction.title}"
+            val gmmIntentUri = Uri.parse(uri)
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -40,16 +48,4 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun parseAttractions(): List<Attraction> {
-        val textFromFile = resources.openRawResource(R.raw.croatia_old).bufferedReader().use {it.readText()}
-
-        val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-        /*val type = Types.newParameterizedType(
-            List::class.java,
-            Attraction::class.java
-        )*/
-        val adapter: JsonAdapter<AttractionsResponse> = moshi.adapter(AttractionsResponse::class.java)
-        return adapter.fromJson(textFromFile)!!.attractions
-
-    }
 }

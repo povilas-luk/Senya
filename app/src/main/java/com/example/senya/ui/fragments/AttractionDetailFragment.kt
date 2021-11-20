@@ -5,9 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
-import androidx.navigation.fragment.navArgs
 import com.example.senya.R
-import com.example.senya.data.Attraction
 import com.example.senya.databinding.FragmentAttractionDetailBinding
 import com.squareup.picasso.Picasso
 
@@ -16,12 +14,14 @@ class AttractionDetailFragment : BaseFragment() {
     private var _binding: FragmentAttractionDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val safeArgs: AttractionDetailFragmentArgs by navArgs()
+    //private val safeArgs: AttractionDetailFragmentArgs by navArgs()
 
-    private val attraction: Attraction by lazy {attractionsList.find {
+    /*private val attraction: Attraction by lazy {attractionsList.find {
             it.id == safeArgs.attractionId
         }?: Attraction()
-    }
+    }*/
+
+    //private val attraction = Attraction()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +39,18 @@ class AttractionDetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Picasso.get().load(attraction.image_url).into(binding.detailHeaderImageView)
-        binding.detailTitleTextVIew.text = attraction.title
-        binding.detailDescriptionTextView.text = attraction.description
-        binding.detailTimeToVisitTextView.text = attraction.months_to_visit
-        val factNumberText = "${attraction.facts.size} facts"
-        binding.detailFactsTextView.text = factNumberText
-        binding.detailFactsTextView.setOnClickListener {
-            factsDialog()
+        activityViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner) {attraction ->
+            Picasso.get()
+                .load(Uri.parse(attraction.image_url))
+                .into(binding.detailHeaderImageView)
+            binding.detailTitleTextVIew.text = attraction.title
+            binding.detailDescriptionTextView.text = attraction.description
+            binding.detailTimeToVisitTextView.text = attraction.months_to_visit
+            val factNumberText = "${attraction.facts.size} facts"
+            binding.detailFactsTextView.text = factNumberText
+            binding.detailFactsTextView.setOnClickListener {
+                factsDialog(attraction.facts)
+            }
         }
 
     }
@@ -60,19 +64,16 @@ class AttractionDetailFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.locationMenuItem -> {
-                val uri = "geo:${attraction.location.latitude},${attraction.location.longitude}?z=9&q=${attraction.title}"
-                val gmmIntentUri = Uri.parse(uri)
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                startActivity(mapIntent)
+                val attraction = activityViewModel.selectedAttractionLiveData.value ?: return true
+                activityViewModel.locationSelectedLiveData.postValue(attraction)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun factsDialog() {
-        val facts: String = attraction.facts.joinToString (prefix = "\u2022 ", separator = "\n\n\u2022 ")
+    private fun factsDialog(factsList: List<String>) {
+        val facts: String = factsList.joinToString (prefix = "\u2022 ", separator = "\n\n\u2022 ")
 
         AlertDialog.Builder(requireContext(), R.style.dialog)
             .setTitle("Facts")

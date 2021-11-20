@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 
 
 class HomeFragmentAdapter(
-    private var attractionsArrayList: ArrayList<Attraction>,
+    private var attractionsArrayList: ArrayList<Attraction> = arrayListOf(),
     private val onClickedCallBack: (String) -> Unit
     ): RecyclerView.Adapter<HomeFragmentAdapter.AttractionViewHolder>() {
 
@@ -29,6 +29,12 @@ class HomeFragmentAdapter(
                 onClicked(attraction.id)
             }
         }
+    }
+
+    fun setData(attractions: List<Attraction>) {
+        this.attractionsArrayList.clear()
+        this.attractionsArrayList.addAll(attractions)
+        //notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): AttractionViewHolder {
